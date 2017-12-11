@@ -46,6 +46,25 @@ var Editor = UI.extend({
         return the;
     },
 
+    /**
+     * 设置内容
+     * @param value
+     * @returns {Editor}
+     */
+    setValue: function (value) {
+        var the = this;
+        the[_editable].setValue(value);
+        return the;
+    },
+
+    /**
+     * 获取内容
+     * @returns {string}
+     */
+    getValue: function () {
+        return this[_editable].getValue();
+    },
+
     // /**
     //  * 使用插件
     //  * @returns {Editor}

@@ -1,6 +1,6 @@
 {
   "name": "blear.ui.editor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "编辑器：（wyswyg、markdown）",
   "scripts": {},
   "preferGlobal": false,
