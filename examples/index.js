@@ -10,7 +10,8 @@
 var Editor = require('../src/index');
 
 var edi = new Editor({
-    el: '#demo'
+    el: '#demo',
+    placeholder: '请输入你想说的话'
 });
 
 edi.button({
