@@ -17,7 +17,8 @@ var fun = require('blear.utils.function');
 var template = require('./template.html');
 var defaults = {
     el: '',
-    placeholder: '请输入'
+    placeholder: '请输入',
+    toolbars: []
 };
 var Editor = UI.extend({
     constructor: function (options) {
@@ -44,6 +45,15 @@ var Editor = UI.extend({
         the[_editable].button(meta);
         return the;
     },
+
+    // /**
+    //  * 使用插件
+    //  * @returns {Editor}
+    //  */
+    // install: function () {
+    //     var the = this;
+    //     return the;
+    // },
 
     /**
      * 销毁实例
