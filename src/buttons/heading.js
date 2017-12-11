@@ -8,23 +8,22 @@
 
 'use strict';
 
-var buttonCreator = require('../utils/button-creator');
+var button = require('../constructors/button');
 
 module.exports = function (editor) {
     editor.button({
-        el: buttonCreator(editor, {
+        el: button(editor, {
             name: 'heading',
             title: '段落'
         }),
         cmd: function () {
 
         },
-        imme: false,
         query: function () {
 
         }
     }).on('action', function () {
-        this.toggle(true);
+
     });
 };
 

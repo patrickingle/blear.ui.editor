@@ -8,13 +8,13 @@
 
 'use strict';
 
-var buttonCreator = require('../utils/button-creator');
+var button = require('../constructors/button');
 
 var cmd = 'italic';
 
 module.exports = function (editor) {
     editor.button({
-        el: buttonCreator(editor, {
+        el: button(editor, {
             name: cmd,
             title: '斜体'
         }),
