@@ -123,7 +123,7 @@ prop[_initPlaceholder] = function () {
     var the = this;
     var options = the[_options];
 
-    attribute.style(the[_editorPlaceholderEl], attribute.style(the[_editorBodyEl], [
+    attribute.style(the[_editorPlaceholderEl], attribute.style(the[_editableEl], [
         'padding',
         'background',
         'font'
