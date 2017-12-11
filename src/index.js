@@ -27,6 +27,7 @@ var Editor = UI.extend({
         var the = this;
 
         Editor.parent(the);
+        the.mac = Editable.mac;
         the[_options] = object.assign({}, defaults, options);
         the[_initFrame]();
         the[_initPlaceholder]();

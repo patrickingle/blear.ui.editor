@@ -20,7 +20,7 @@ module.exports = function (options) {
                 title: '斜体'
             }).getButtonEl(),
             cmd: cmd,
-            shortcut: (editor.constructor.mac ? 'cmd' : 'ctrl') + '+i'
+            shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+i'
         });
     };
 };

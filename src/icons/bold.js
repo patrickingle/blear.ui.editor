@@ -20,7 +20,7 @@ module.exports = function (options) {
                 title: '加粗'
             }).getButtonEl(),
             cmd: cmd,
-            shortcut: (editor.constructor.mac ? 'cmd' : 'ctrl') + '+b'
+            shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+b'
         });
     };
 };
