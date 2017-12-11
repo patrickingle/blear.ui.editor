@@ -35,8 +35,18 @@ var Editor = UI.extend({
     },
 
     /**
+     * 挂载一个图标
+     * @returns {Editor}
+     */
+    icon: function (iconMaker) {
+        var the = this;
+        iconMaker.call(the, the);
+        return the;
+    },
+
+    /**
      * 实例化一个按钮
-     * @param meta {Object|Function}
+     * @param meta {Object}
      * @param meta.el 元素
      * @param meta.cmd {String|Function} 命令
      * @param [meta.shortcut] {String} 快捷键
@@ -45,12 +55,6 @@ var Editor = UI.extend({
      */
     button: function (meta) {
         var the = this;
-
-        if (typeis.Function(meta)) {
-            meta(the);
-            return the;
-        }
-
         var query = meta.query;
         meta.query = typeis.Function(query) ? function () {
             return query.call(the);
