@@ -13,12 +13,18 @@ var edi = new Editor({
     el: '#demo'
 });
 
-edi.button({
-    el: '#bold',
-    cmd: 'bold',
-    shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + b'
-});
+// edi.button({
+//     el: '#bold',
+//     cmd: 'bold',
+//     shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + b'
+// });
+// edi.button({
+//     el: '#italic',
+//     cmd: 'italic',
+//     shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + i'
+// });
 
+edi.button(require('../src/buttons/bold'));
 
 window.edi = edi;
 

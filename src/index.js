@@ -13,12 +13,12 @@ var attribute = require('blear.core.attribute');
 var modification = require('blear.core.modification');
 var object = require('blear.utils.object');
 var fun = require('blear.utils.function');
+var typeis = require('blear.utils.typeis');
 
-var template = require('./template.html');
+var iconFontLink = 'https://at.alicdn.com/t/font_504834_gc3vs83vdfq4obt9.css';
 var defaults = {
     el: '',
-    placeholder: '请输入',
-    toolbars: []
+    placeholder: '请输入'
 };
 var Editor = UI.extend({
     constructor: function (options) {
@@ -34,7 +34,7 @@ var Editor = UI.extend({
 
     /**
      * 实例化一个按钮
-     * @param meta {Object}
+     * @param meta {Object|Function}
      * @param meta.el
      * @param meta.cmd {String|Function}
      * @param [meta.shortcut] {String}
@@ -42,6 +42,12 @@ var Editor = UI.extend({
      */
     button: function (meta) {
         var the = this;
+
+        if (typeis.Function(meta)) {
+            meta(the);
+            return the;
+        }
+
         the[_editable].button(meta);
         return the;
     },
@@ -73,6 +79,14 @@ var Editor = UI.extend({
     //     var the = this;
     //     return the;
     // },
+
+    /**
+     * 获取 toolbars 区域元素
+     * @returns {HTMLDivElement}
+     */
+    getToolbarsEl: function () {
+        return this[_editorToolbarsEl];
+    },
 
     /**
      * 销毁实例
@@ -138,6 +152,7 @@ prop[_initEditable] = function () {
     the[_editable] = new Editable({
         el: the[_editableEl]
     });
+    the[_editable].focus();
 };
 
 prop[_initEvent] = function () {
@@ -157,6 +172,10 @@ prop[_initEvent] = function () {
     }));
 };
 
+modification.insert(modification.create('link', {
+    href: iconFontLink,
+    rel: 'stylesheet'
+}));
 require('./style.css', 'css|style');
 Editor.defaults = defaults;
 Editor.mac = Editable.mac;
