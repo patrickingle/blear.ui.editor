@@ -1,0 +1,19 @@
+.blearui-editor {
+  border: 1px solid #ccc;
+
+  &-toolbars {
+
+  }
+
+  &-body {
+    position: relative;
+  }
+
+  &-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #888;
+    z-index: 0;
+  }
+}

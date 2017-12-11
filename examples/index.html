@@ -18,10 +18,25 @@
     <meta name="description" content="描述语句">
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
     <title>index.html</title>
+    <style>
+        button {
+            padding: 6px 12px;
+            line-height: 1;
+            font-size: 16px;
+            border: 1px solid #ddd;
+        }
+
+        button.active {
+            background: #5f5f5f;
+            color: #fff;
+            border-color: #444;
+        }
+    </style>
 </head>
 <body ontouchstart="">
-
+<button id="bold">bold</button>
 <h1>example</h1>
+<div id="demo"></div>
 
 <script src="/node_modules/coolie.js/coolie.js"
 data-config="/examples/coolie-config.js"

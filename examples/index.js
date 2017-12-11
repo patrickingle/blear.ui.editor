@@ -7,6 +7,19 @@
 
 'use strict';
 
+var Editor = require('../src/index');
 
+var edi = new Editor({
+    el: '#demo'
+});
+
+edi.button({
+    el: '#bold',
+    cmd: 'bold',
+    shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + b'
+});
+
+
+window.edi = edi;
 
 
