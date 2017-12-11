@@ -20,7 +20,8 @@ var classBase = 'blearui-editor-icon';
 module.exports = function (editor, options) {
     var toolbarsEl = editor.getToolbarsEl();
     var buttonEl = modification.create('i', {
-        'class': classBase + ' ' + classBase + '-' + options.className
+        'class': classBase + ' ' + classBase + '-' + options.name,
+        title: options.title
     });
     modification.insert(buttonEl, toolbarsEl);
     return buttonEl;

@@ -1,14 +1,69 @@
+$icon-size: 36px;
+
 .blearui-editor {
-  border: 1px solid #ccc;
+  border: 1px solid #dcdcdc;
 
   &-toolbars {
-    .icon {
+    border-bottom: 1px solid #e6e6e6;
 
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+
+  &-icon {
+    float: left;
+    width: $icon-size;
+    height: $icon-size;
+    line-height: $icon-size;
+    text-align: center;
+    color: #666;
+    cursor: pointer;
+
+    &-heading {
+      &:before {
+        content: "P";
+        font-size: 19px;
+        font-weight: bold;
+        font-family: 'Times New Roman';
+      }
+
+      &-1:before {
+        content: "H1";
+      }
+
+      &-2:before {
+        content: "H2";
+      }
+
+      &-3:before {
+        content: "H3";
+      }
+
+      &-4:before {
+        content: "H4";
+      }
+
+      &-5:before {
+        content: "H5";
+      }
+
+      &-6:before {
+        content: "H6";
+      }
+    }
+
+    &.active {
+      background: #e0e0e0;
+      color: #333;
     }
   }
 
   &-body {
     position: relative;
+    margin: 10px;
   }
 
   &-placeholder {
@@ -17,5 +72,11 @@
     left: 0;
     color: #888;
     z-index: 0;
+  }
+
+  &-content {
+    position: relative;
+    z-index: 1;
+    outline: 0;
   }
 }

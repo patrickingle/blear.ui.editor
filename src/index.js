@@ -10,16 +10,18 @@ var Editable = require('blear.classes.editable');
 var UI = require('blear.ui');
 var selector = require('blear.core.selector');
 var attribute = require('blear.core.attribute');
+var event = require('blear.core.event');
 var modification = require('blear.core.modification');
 var object = require('blear.utils.object');
 var fun = require('blear.utils.function');
 var typeis = require('blear.utils.typeis');
 
-var iconFontLink = 'https://at.alicdn.com/t/font_504834_gc3vs83vdfq4obt9.css';
+var iconFontLink = 'https://at.alicdn.com/t/font_504834_2qdjl2hpwqumcxr.css';
 var defaults = {
     el: '',
     placeholder: '请输入'
 };
+var namespace = 'blearui-editor';
 var Editor = UI.extend({
     constructor: function (options) {
         var the = this;
@@ -35,9 +37,10 @@ var Editor = UI.extend({
     /**
      * 实例化一个按钮
      * @param meta {Object|Function}
-     * @param meta.el
-     * @param meta.cmd {String|Function}
-     * @param [meta.shortcut] {String}
+     * @param meta.el 元素
+     * @param meta.cmd {String|Function} 命令
+     * @param [meta.shortcut] {String} 快捷键
+     * @param [meta.query] {Function} 检查激活状态方法，返回布尔值
      * @returns {Editor}
      */
     button: function (meta) {
@@ -48,8 +51,11 @@ var Editor = UI.extend({
             return the;
         }
 
-        the[_editable].button(meta);
-        return the;
+        var query = meta.query;
+        meta.query = typeis.Function(query) ? function () {
+            return query.call(the);
+        } : null;
+        return the[_editable].button(meta);
     },
 
     /**
@@ -69,6 +75,16 @@ var Editor = UI.extend({
      */
     getValue: function () {
         return this[_editable].getValue();
+    },
+
+    /**
+     * 聚焦
+     * @returns {Editor}
+     */
+    focus: function () {
+        var the = this;
+        the[_editable].focus();
+        return the;
     },
 
     // /**
@@ -98,6 +114,7 @@ var Editor = UI.extend({
         Editor.invoke('destroy', the);
         modification.insert(the[_editableEl], the[_editorEl], 3);
         modification.remove(the[_editorEl]);
+        attribute.removeClass(the[_editableEl], namespace + '-content');
         the[_editableEl] = the[_editorEl] = the[_editorToolbarsEl]
             = the[_editorPlaceholderEl] = the[_editorBodyEl]
             = the[_editorFooterEl] = null;
@@ -131,6 +148,7 @@ prop[_initFrame] = function () {
     the[_editorPlaceholderEl] = selector.children(the[_editorBodyEl])[0];
     modification.insert(the[_editorEl], the[_editableEl], 3);
     modification.insert(the[_editableEl], the[_editorBodyEl], 2);
+    attribute.addClass(the[_editableEl], namespace + '-content');
 };
 
 prop[_initPlaceholder] = function () {

@@ -1,10 +1,49 @@
 .blearui-editor {
-  border: 1px solid #ccc; }
+  border: 1px solid #dcdcdc; }
+  .blearui-editor-toolbars {
+    border-bottom: 1px solid #e6e6e6; }
+    .blearui-editor-toolbars:after {
+      content: '';
+      display: block;
+      clear: both; }
+  .blearui-editor-icon {
+    float: left;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    color: #666;
+    cursor: pointer; }
+    .blearui-editor-icon-heading:before {
+      content: "P";
+      font-size: 19px;
+      font-weight: bold;
+      font-family: 'Times New Roman'; }
+    .blearui-editor-icon-heading-1:before {
+      content: "H1"; }
+    .blearui-editor-icon-heading-2:before {
+      content: "H2"; }
+    .blearui-editor-icon-heading-3:before {
+      content: "H3"; }
+    .blearui-editor-icon-heading-4:before {
+      content: "H4"; }
+    .blearui-editor-icon-heading-5:before {
+      content: "H5"; }
+    .blearui-editor-icon-heading-6:before {
+      content: "H6"; }
+    .blearui-editor-icon.active {
+      background: #e0e0e0;
+      color: #333; }
   .blearui-editor-body {
-    position: relative; }
+    position: relative;
+    margin: 10px; }
   .blearui-editor-placeholder {
     position: absolute;
     top: 0;
     left: 0;
     color: #888;
     z-index: 0; }
+  .blearui-editor-content {
+    position: relative;
+    z-index: 1;
+    outline: 0; }

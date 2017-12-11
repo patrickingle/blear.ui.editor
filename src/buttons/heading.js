@@ -10,16 +10,21 @@
 
 var buttonCreator = require('../utils/button-creator');
 
-var cmd = 'bold';
-
 module.exports = function (editor) {
     editor.button({
         el: buttonCreator(editor, {
-            name: cmd,
-            title: '加粗'
+            name: 'heading',
+            title: '段落'
         }),
-        cmd: cmd,
-        shortcut: (editor.constructor.mac ? 'cmd' : 'ctrl') + '+b'
+        cmd: function () {
+
+        },
+        imme: false,
+        query: function () {
+
+        }
+    }).on('action', function () {
+        this.toggle(true);
     });
 };
 

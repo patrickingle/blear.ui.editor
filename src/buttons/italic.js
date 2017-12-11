@@ -10,16 +10,16 @@
 
 var buttonCreator = require('../utils/button-creator');
 
-var cmd = 'bold';
+var cmd = 'italic';
 
 module.exports = function (editor) {
     editor.button({
         el: buttonCreator(editor, {
             name: cmd,
-            title: '加粗'
+            title: '斜体'
         }),
         cmd: cmd,
-        shortcut: (editor.constructor.mac ? 'cmd' : 'ctrl') + '+b'
+        shortcut: (editor.constructor.mac ? 'cmd' : 'ctrl') + '+i'
     });
 };
 

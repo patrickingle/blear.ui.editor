@@ -24,7 +24,9 @@ var edi = new Editor({
 //     shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + i'
 // });
 
+edi.button(require('../src/buttons/heading'));
 edi.button(require('../src/buttons/bold'));
+edi.button(require('../src/buttons/italic'));
 
 window.edi = edi;
 
