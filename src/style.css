@@ -12,8 +12,13 @@
     height: 36px;
     line-height: 36px;
     text-align: center;
-    color: #666;
+    color: #666666;
     cursor: pointer; }
+    .blearui-editor-icon:hover {
+      background: #f6f6f6; }
+    .blearui-editor-icon.active {
+      background: #e0e0e0;
+      color: #333; }
     .blearui-editor-icon-heading:before {
       content: "P";
       font-size: 19px;
@@ -31,11 +36,41 @@
       content: "H5"; }
     .blearui-editor-icon-heading-6:before {
       content: "H6"; }
-    .blearui-editor-icon.active {
-      background: #e0e0e0;
-      color: #333; }
-  .blearui-editor-menu {
-    font-size: 16px; }
+  .blearui-editor-dropOptions {
+    display: none;
+    font-size: 16px;
+    position: absolute;
+    min-width: 160px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+    background: #fff;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px; }
+    .blearui-editor-dropOptions:before, .blearui-editor-dropOptions:after {
+      content: '';
+      position: absolute;
+      border: 8px solid transparent;
+      top: -16px;
+      left: 10px; }
+    .blearui-editor-dropOptions:before {
+      border-bottom-color: #d9d9d9; }
+    .blearui-editor-dropOptions:after {
+      border-bottom-color: #fff; }
+    .blearui-editor-dropOptions a {
+      line-height: 36px;
+      display: block;
+      text-decoration: none;
+      color: #666666;
+      padding: 0 10px; }
+      .blearui-editor-dropOptions a:hover {
+        background: #f6f6f6; }
+    .blearui-editor-dropOptions li.active {
+      margin-left: -1px;
+      margin-right: -1px; }
+      .blearui-editor-dropOptions li.active a {
+        background: #4899FA;
+        color: #fff; }
   .blearui-editor-body {
     position: relative;
     margin: 10px; }

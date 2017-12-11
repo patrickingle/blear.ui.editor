@@ -1,10 +1,17 @@
-$icon-size: 36px;
 
 .blearui-editor {
-  border: 1px solid #dcdcdc;
+  $icon-size: 36px;
+  $outer-border-color: #dcdcdc;
+  $inner-border-color: #e6e6e6;
+  $hover-bg: #f6f6f6;;
+  $active-bg: #e0e0e0;
+  $normal-color: #666666;
+  $dropOptions-active-bg: #4899FA;
+
+  border: 1px solid $outer-border-color;
 
   &-header {
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px solid $inner-border-color;
     font-size: 0;
   }
 
@@ -19,8 +26,17 @@ $icon-size: 36px;
     height: $icon-size;
     line-height: $icon-size;
     text-align: center;
-    color: #666;
+    color: $normal-color;
     cursor: pointer;
+
+    &:hover {
+      background: $hover-bg;
+    }
+
+    &.active {
+      background: $active-bg;
+      color: #333;
+    }
 
     &-heading {
       &:before {
@@ -54,15 +70,59 @@ $icon-size: 36px;
         content: "H6";
       }
     }
-
-    &.active {
-      background: #e0e0e0;
-      color: #333;
-    }
   }
 
-  &-menu {
+  &-dropOptions {
+    display: none;
     font-size: 16px;
+    position: absolute;
+    min-width: 160px;
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+    background: #fff;
+    border: 1px solid $outer-border-color;
+    border-radius: 4px;
+
+    $arrow-size: 8px;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      border: $arrow-size solid transparent;
+      top: - $arrow-size * 2;
+      left: $icon-size / 2 - $arrow-size;
+    }
+
+    &:before {
+      border-bottom-color: darken($inner-border-color, 5%);
+    }
+
+    &:after {
+      border-bottom-color: #fff;
+    }
+
+    a {
+      line-height: $icon-size;
+      display: block;
+      text-decoration: none;
+      color: $normal-color;
+      padding: 0 10px;
+
+      &:hover {
+        background: $hover-bg;
+      }
+    }
+
+    li.active {
+      margin-left: -1px;
+      margin-right: -1px;
+
+      a {
+        background: $dropOptions-active-bg;
+        color: #fff;
+      }
+    }
   }
 
   &-body {

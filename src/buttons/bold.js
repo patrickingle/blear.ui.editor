@@ -17,7 +17,7 @@ module.exports = function (editor) {
         el: button(editor, {
             name: cmd,
             title: '加粗'
-        }),
+        }).getButtonEl(),
         cmd: cmd,
         shortcut: (editor.constructor.mac ? 'cmd' : 'ctrl') + '+b'
     });

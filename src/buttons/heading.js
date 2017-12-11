@@ -9,13 +9,27 @@
 'use strict';
 
 var button = require('../constructors/button');
+var dropOptions = require('../constructors/drop-options');
 
 module.exports = function (editor) {
-    editor.button({
-        el: button(editor, {
-            name: 'heading',
-            title: '段落'
-        }),
+    var btn = button(editor, {
+        name: 'heading',
+        title: '段落'
+    });
+    var dop = dropOptions(btn, [{
+        text: '段落',
+        value: ''
+    }, {
+        text: '一级标题',
+        value: '1'
+    }, {
+        text: '二级标题',
+        value: '2'
+    }]).on('escape', function () {
+        btn2.toggle();
+    });
+    var btn2 = editor.button({
+        el: btn.getButtonEl(),
         cmd: function () {
 
         },
@@ -23,7 +37,7 @@ module.exports = function (editor) {
 
         }
     }).on('action', function () {
-
+        dop.toggle();
     });
 };
 
