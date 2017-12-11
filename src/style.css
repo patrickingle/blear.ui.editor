@@ -1,13 +1,13 @@
 .blearui-editor {
   border: 1px solid #dcdcdc; }
-  .blearui-editor-toolbars {
-    border-bottom: 1px solid #e6e6e6; }
-    .blearui-editor-toolbars:after {
-      content: '';
-      display: block;
-      clear: both; }
+  .blearui-editor-header {
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 0; }
+  .blearui-editor-button {
+    display: inline-block;
+    position: relative; }
   .blearui-editor-icon {
-    float: left;
+    display: inline-block;
     width: 36px;
     height: 36px;
     line-height: 36px;
@@ -34,6 +34,8 @@
     .blearui-editor-icon.active {
       background: #e0e0e0;
       color: #333; }
+  .blearui-editor-menu {
+    font-size: 16px; }
   .blearui-editor-body {
     position: relative;
     margin: 10px; }

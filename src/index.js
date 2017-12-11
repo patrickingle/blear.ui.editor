@@ -97,11 +97,11 @@ var Editor = UI.extend({
     // },
 
     /**
-     * 获取 toolbars 区域元素
+     * 获取 header 区域元素
      * @returns {HTMLDivElement}
      */
-    getToolbarsEl: function () {
-        return this[_editorToolbarsEl];
+    getHeaderEl: function () {
+        return this[_editorHeaderEl];
     },
 
     /**
@@ -115,7 +115,7 @@ var Editor = UI.extend({
         modification.insert(the[_editableEl], the[_editorEl], 3);
         modification.remove(the[_editorEl]);
         attribute.removeClass(the[_editableEl], namespace + '-content');
-        the[_editableEl] = the[_editorEl] = the[_editorToolbarsEl]
+        the[_editableEl] = the[_editorEl] = the[_editorHeaderEl]
             = the[_editorPlaceholderEl] = the[_editorBodyEl]
             = the[_editorFooterEl] = null;
     }
@@ -130,7 +130,7 @@ var _initEvent = sole();
 var _editable = sole();
 var _editableEl = sole();
 var _editorEl = sole();
-var _editorToolbarsEl = sole();
+var _editorHeaderEl = sole();
 var _editorPlaceholderEl = sole();
 var _editorBodyEl = sole();
 var _editorFooterEl = sole();
@@ -142,7 +142,7 @@ prop[_initFrame] = function () {
     the[_editableEl] = selector.query(options.el)[0];
     the[_editorEl] = modification.parse(require('./template.html'));
     var els = selector.children(the[_editorEl]);
-    the[_editorToolbarsEl] = els[0];
+    the[_editorHeaderEl] = els[0];
     the[_editorBodyEl] = els[1];
     the[_editorFooterEl] = els[2];
     the[_editorPlaceholderEl] = selector.children(the[_editorBodyEl])[0];

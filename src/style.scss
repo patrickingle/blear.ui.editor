@@ -3,18 +3,18 @@ $icon-size: 36px;
 .blearui-editor {
   border: 1px solid #dcdcdc;
 
-  &-toolbars {
+  &-header {
     border-bottom: 1px solid #e6e6e6;
+    font-size: 0;
+  }
 
-    &:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
+  &-button {
+    display: inline-block;
+    position: relative;
   }
 
   &-icon {
-    float: left;
+    display: inline-block;
     width: $icon-size;
     height: $icon-size;
     line-height: $icon-size;
@@ -59,6 +59,10 @@ $icon-size: 36px;
       background: #e0e0e0;
       color: #333;
     }
+  }
+
+  &-menu {
+    font-size: 16px;
   }
 
   &-body {

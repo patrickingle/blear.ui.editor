@@ -10,7 +10,9 @@
 
 var modification = require('blear.core.modification');
 
-var classBase = 'blearui-editor-icon';
+var namespace = 'blearui-editor';
+var iconClassName = namespace + '-icon';
+var buttonClassName = namespace + '-button';
 
 /**
  * 创建按钮
@@ -18,11 +20,15 @@ var classBase = 'blearui-editor-icon';
  * @param options
  */
 module.exports = function (editor, options) {
-    var toolbarsEl = editor.getToolbarsEl();
+    var headerEl = editor.getHeaderEl();
     var buttonEl = modification.create('i', {
-        'class': classBase + ' ' + classBase + '-' + options.name,
+        'class': iconClassName + ' ' + iconClassName + '-' + options.name,
         title: options.title
     });
-    modification.insert(buttonEl, toolbarsEl);
+    var divEl = modification.create('div', {
+        'class': buttonClassName + ' ' + buttonClassName + '-' + options.name
+    });
+    modification.insert(buttonEl, divEl);
+    modification.insert(divEl, headerEl);
     return buttonEl;
 };
