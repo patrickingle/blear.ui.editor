@@ -8,6 +8,7 @@
 
 'use strict';
 
+var selector = require('blear.core.selector');
 var modification = require('blear.core.modification');
 var Events = require('blear.classes.events');
 var object = require('blear.utils.object');
@@ -17,7 +18,12 @@ var iconClassName = namespace + '-icon';
 var buttonClassName = namespace + '-button';
 var defaults = {
     name: '',
-    title: ''
+    title: '',
+    el: null,
+    activeClassName: 'active',
+    cmd: 'bold',
+    shortcut: null,
+    query: null
 };
 var Button = Events.extend({
     constructor: function (options) {
@@ -25,14 +31,20 @@ var Button = Events.extend({
 
         Button.parent(the);
         the[_options] = object.assign({}, defaults, options);
-        the[_el] = modification.create('div', {
-            class: buttonClassName + ' ' + buttonClassName + '-' + options.name
-        });
-        the[_buttonEl] = modification.create('i', {
-            class: iconClassName + ' ' + iconClassName + '-' + options.name,
-            title: options.title
-        });
-        modification.insert(the[_buttonEl], the[_el]);
+        var el = selector.query(options.el)[0];
+
+        if (el) {
+            the[_el] = the[_buttonEl] = el;
+        } else {
+            the[_el] = modification.create('div', {
+                class: buttonClassName + ' ' + buttonClassName + '-' + options.name
+            });
+            the[_buttonEl] = modification.create('i', {
+                class: iconClassName + ' ' + iconClassName + '-' + options.name,
+                title: options.title
+            });
+            modification.insert(the[_buttonEl], the[_el]);
+        }
     },
 
     /**
@@ -70,6 +82,7 @@ var _options = sole();
  * 创建按钮
  * @param editor
  * @param options
+ * @param options.el
  * @returns Button
  */
 module.exports = function (editor, options) {
