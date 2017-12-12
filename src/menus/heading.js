@@ -9,7 +9,7 @@
 'use strict';
 
 var button = require('../constructors/button');
-var dropOptions = require('../constructors/drop-options');
+var Options = require('../constructors/options');
 
 module.exports = function (options) {
     return function (editor) {
@@ -17,7 +17,7 @@ module.exports = function (options) {
             name: 'heading',
             title: '段落'
         });
-        var dop = dropOptions(btn, [{
+        var options = new Options(btn, [{
             text: '段落',
             value: ''
         }, {
@@ -26,20 +26,20 @@ module.exports = function (options) {
         }, {
             text: '二级标题',
             value: '2'
-        }]).on('escape', function () {
-            btn2.toggle();
-        });
-        var btn2 = editor.button({
-            el: btn.getButtonEl(),
-            cmd: function () {
-
-            },
-            query: function () {
-
-            }
-        }).on('action', function () {
-            dop.toggle();
-        });
+        }])
+            .on('escape', function () {
+            });
+        // var btn2 = editor.button({
+        //     el: btn.getButtonEl(),
+        //     cmd: function () {
+        //
+        //     },
+        //     query: function () {
+        //
+        //     }
+        // }).on('action', function () {
+        //     dop.toggle();
+        // });
     };
 };
 

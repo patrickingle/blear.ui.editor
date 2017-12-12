@@ -17,11 +17,11 @@ var object = require('blear.utils.object');
 
 var namespace = require('../settings.json').namespace;
 var buttonClassName = namespace + '-button';
-var DYNAMIC_TYPE = 'dynamic';
-var STATIC_TYPE = 'static';
 var mousedownEventType = 'mousedown';
 var defaults = {
-    el: null
+    el: null,
+    activeClassName: 'active',
+    query: null
 };
 var Button = Events.extend({
     constructor: function (options) {
@@ -33,8 +33,31 @@ var Button = Events.extend({
         attribute.addClass(the[_el], buttonClassName);
         event.on(the[_el], mousedownEventType, the[_onMousedownListener] = function () {
             the.emit('action');
+            the.update();
             return false;
         });
+        the.active = false;
+    },
+
+    /**
+     * 切换按钮状态
+     * @returns {Button}
+     */
+    toggle: function (active) {
+        var the = this;
+        the[_active](!the.active);
+        return the;
+    },
+
+    /**
+     * 更新状态
+     * @returns {Button}
+     */
+    update: function () {
+        var the = this;
+        var boolean = the[_options].query();
+        the[_active](boolean);
+        return the;
     },
 
     /**
@@ -55,12 +78,30 @@ var Button = Events.extend({
         event.un(the[_el], mousedownEventType, the[_onMousedownListener]);
     }
 });
+var pro = Button.prototype;
 var sole = Button.sole;
 var _options = sole();
 var _el = sole();
 var _onMousedownListener = sole();
+var _active = sole();
 
 
 Button.defaults = defaults;
 module.exports = Button;
 
+
+/**
+ * 激活按钮
+ * @param boolean
+ */
+pro[_active] = function (boolean) {
+    var the = this;
+    var activeClassName = the[_options].activeClassName;
+
+    if (boolean === the.active) {
+        return;
+    }
+
+    the.active = boolean;
+    attribute[(boolean ? 'add' : 'remove') + 'Class'](the[_el], activeClassName);
+};

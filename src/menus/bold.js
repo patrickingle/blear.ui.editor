@@ -32,14 +32,25 @@ module.exports = function (options) {
             title: '加粗'
         });
         var button = new Button({
-            el: icon.getEl()
+            el: icon.getEl(),
+            query: function () {
+                return document.queryCommandState(cmd);
+            }
         });
-
         var menu = new Menu(editor);
+        var shortcut = (editor.mac ? 'cmd' : 'ctrl') + '+b';
 
         menu.button(button);
-
-        // modification.insert(button.getEl(), editor.getHeaderEl());
+        editor.shortcut(shortcut, function (ev) {
+            button.update();
+            editor.bold();
+        });
+        editor.on('change', function () {
+            button.update();
+        });
+        button.on('action', function () {
+            editor.bold();
+        });
     };
 };
 

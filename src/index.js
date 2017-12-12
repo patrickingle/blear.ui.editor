@@ -43,6 +43,7 @@ var Editor = UI.extend({
         the[_initRanger]();
         the[_initPlaceholder]();
         the[_initEvent]();
+        the.focus();
     },
 
     /**
@@ -73,6 +74,46 @@ var Editor = UI.extend({
         } : null;
 
     },
+
+    /**
+     * 加粗
+     * @returns {Editor}
+     */
+    bold: nativeExec('bold'),
+
+    /**
+     * 斜体
+     * @returns {Editor}
+     */
+    italic: nativeExec('italic'),
+
+    /**
+     * 下划线
+     * @returns {Editor}
+     */
+    underline: nativeExec('underline'),
+
+    /**
+     * 删除线
+     * @returns {Editor}
+     */
+    strikeThrough: nativeExec('strikeThrough'),
+
+    /**
+     * 插入节点
+     * @param node
+     * @returns {Editor}
+     */
+    insertNode: function (node) {
+        var the = this;
+        the.focus();
+        time.nextTick(function () {
+            the[_ranger].insertNode(node);
+            the.focus();
+        });
+        return the;
+    },
+
 
     /**
      * 设置内容
@@ -131,6 +172,19 @@ var Editor = UI.extend({
      */
     getHeaderEl: function () {
         return this[_editorHeaderEl];
+    },
+
+    /**
+     * 绑定快捷键
+     * @returns {*}
+     */
+    shortcut: function (shortcut, listener) {
+        var the = this;
+        the[_hotkey].bind(shortcut, function (ev) {
+            listener.call(the, ev);
+            ev.preventDefault();
+        });
+        return the;
     },
 
     /**
@@ -347,8 +401,6 @@ require('./style.css', 'css|style');
 Editor.defaults = defaults;
 Editor.mac = Hotkey.mac;
 module.exports = Editor;
-
-
 
 
 // ===============================================
