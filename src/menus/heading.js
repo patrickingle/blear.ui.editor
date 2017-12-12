@@ -34,7 +34,7 @@ module.exports = function (options) {
         //     cmd: function () {
         //
         //     },
-        //     query: function () {
+        //     as: function () {
         //
         //     }
         // }).on('action', function () {

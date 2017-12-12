@@ -21,7 +21,7 @@ var mousedownEventType = 'mousedown';
 var defaults = {
     el: null,
     activeClassName: 'active',
-    query: null
+    as: null
 };
 var Button = Events.extend({
     constructor: function (options) {
@@ -29,11 +29,11 @@ var Button = Events.extend({
 
         Button.parent(the);
         the[_options] = object.assign({}, defaults, options);
-        var query = the[_options].query;
-        the[_options].query = typeis.Function(query) ? query : function () {
+        var as = the[_options].as;
+        the[_options].as = typeis.Function(as) ? as : function () {
             return false;
         };
-        the[_el] = selector.query(the[_options].el)[0];
+        the[_el] = selector.as(the[_options].el)[0];
         attribute.addClass(the[_el], buttonClassName);
         event.on(the[_el], mousedownEventType, the[_onMousedownListener] = function () {
             the.emit('action');
@@ -59,7 +59,7 @@ var Button = Events.extend({
      */
     update: function () {
         var the = this;
-        var boolean = the[_options].query();
+        var boolean = the[_options].as();
         the[_active](boolean);
         return the;
     },

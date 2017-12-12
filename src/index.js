@@ -29,7 +29,24 @@ var Button = require('./constructors/button');
 var iconFontLink = 'https://at.alicdn.com/t/font_504834_2qdjl2hpwqumcxr.css';
 var defaults = {
     el: '',
-    placeholder: '请输入'
+    placeholder: '请输入',
+    allowTags: [
+        'br', 'span', 'a', 'img', 'b', 'strong', 'i', 'strike', 'u', 'font', 'p',
+        'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'h1', 'h2', 'h3', 'h4', 'hr'
+    ],
+    allowAttrs: {
+        img: ['src', 'alt', 'width', 'height'],
+        a: ['href', 'target'],
+        font: ['color'],
+        code: ['class'],
+        pre: ['class']
+    },
+    onPasteImage: function (next) {
+
+    },
+    onDropImage: function (next) {
+
+    }
 };
 var namespace = require('./settings.json').namespace;
 var Editor = UI.extend({
@@ -64,14 +81,14 @@ var Editor = UI.extend({
      * @param meta {Object}
      * @param meta.el 元素
      * @param meta.cmd {Function} 命令
-     * @param [meta.query] {Function} 检查激活状态方法，返回布尔值
+     * @param [meta.as] {Function} 检查激活状态方法，返回布尔值
      * @returns {Editor}
      */
     button: function (meta) {
         var the = this;
         var button = new Button({
             el: meta.el,
-            query: meta.query
+            as: meta.as
         });
         button.on('action', function () {
             meta.cmd.call(the);

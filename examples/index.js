@@ -19,7 +19,7 @@ edi.button({
     cmd: function () {
         edi.bold();
     },
-    query: function () {
+    as: function () {
         return edi.as('bold');
     }
 });

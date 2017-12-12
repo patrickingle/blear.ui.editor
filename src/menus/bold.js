@@ -27,7 +27,7 @@ module.exports = function (options) {
         });
         var button = new Button({
             el: icon.getEl(),
-            query: function () {
+            as: function () {
                 return editor.as(cmd);
             }
         });
