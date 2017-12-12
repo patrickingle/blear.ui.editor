@@ -105,12 +105,12 @@ var Editor = UI.extend({
     strikeThrough: nativeExec('strikeThrough'),
 
     /**
-     * 查询状态
-     * @param method
+     * 判断当前是否为某状态
+     * @param state
      * @returns {boolean}
      */
-    query: function (method) {
-        return document.queryCommandState(method);
+    as: function (state) {
+        return document.queryCommandState(state);
     },
 
     /**

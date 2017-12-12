@@ -20,7 +20,7 @@ edi.button({
         edi.bold();
     },
     query: function () {
-        return edi.query('bold');
+        return edi.as('bold');
     }
 });
 // edi.button({

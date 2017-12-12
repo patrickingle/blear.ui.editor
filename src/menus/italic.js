@@ -28,7 +28,7 @@ module.exports = function (options) {
         var button = new Button({
             el: icon.getEl(),
             query: function () {
-                return editor.query(cmd);
+                return editor.as(cmd);
             }
         });
         var menu = new Menu(editor, {
