@@ -13,6 +13,7 @@ var selector = require('blear.core.selector');
 var attribute = require('blear.core.attribute');
 var event = require('blear.core.event');
 var object = require('blear.utils.object');
+var typeis = require('blear.utils.typeis');
 
 var namespace = require('../settings.json').namespace;
 var buttonClassName = namespace + '-button';
@@ -28,6 +29,10 @@ var Button = Events.extend({
 
         Button.parent(the);
         the[_options] = object.assign({}, defaults, options);
+        var query = the[_options].query;
+        the[_options].query = typeis.Function(query) ? query : function () {
+            return false;
+        };
         the[_el] = selector.query(the[_options].el)[0];
         attribute.addClass(the[_el], buttonClassName);
         event.on(the[_el], mousedownEventType, the[_onMousedownListener] = function () {

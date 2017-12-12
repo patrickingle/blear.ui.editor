@@ -19,7 +19,9 @@ edi.button({
     cmd: function () {
         edi.bold();
     },
-    shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + b'
+    query: function () {
+        return edi.query('bold');
+    }
 });
 // edi.button({
 //     el: '#italic',

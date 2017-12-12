@@ -24,6 +24,7 @@ var History = require('./managers/history');
 var nodal = require('./utils/nodal');
 var clipboard = require('./utils/clipboard');
 var clean = require('./utils/clean');
+var Button = require('./constructors/button');
 
 var iconFontLink = 'https://at.alicdn.com/t/font_504834_2qdjl2hpwqumcxr.css';
 var defaults = {
@@ -38,6 +39,7 @@ var Editor = UI.extend({
         Editor.parent(the);
         the.mac = Hotkey.mac;
         the[_options] = object.assign({}, defaults, options);
+        the[_buttons] = [];
         the[_initFrame]();
         the[_initHotkey]();
         the[_initRanger]();
@@ -58,13 +60,23 @@ var Editor = UI.extend({
     },
 
     /**
-     * 挂载一个按钮
-     * @param make {Function} 构造器
+     * 实例化一个按钮
+     * @param meta {Object}
+     * @param meta.el 元素
+     * @param meta.cmd {Function} 命令
+     * @param [meta.query] {Function} 检查激活状态方法，返回布尔值
      * @returns {Editor}
      */
-    button: function (make) {
+    button: function (meta) {
         var the = this;
-        make.call(the, the);
+        var button = new Button({
+            el: meta.el,
+            query: meta.query
+        });
+        button.on('action', function () {
+            meta.cmd.call(the);
+        });
+        the[_buttons].push(button);
         return the;
     },
 
@@ -91,6 +103,15 @@ var Editor = UI.extend({
      * @returns {Editor}
      */
     strikeThrough: nativeExec('strikeThrough'),
+
+    /**
+     * 查询状态
+     * @param method
+     * @returns {boolean}
+     */
+    query: function (method) {
+        return document.queryCommandState(method);
+    },
 
     /**
      * 插入节点
@@ -193,11 +214,15 @@ var Editor = UI.extend({
         the[_contentEl] = the[_editorEl] = the[_editorHeaderEl]
             = the[_editorPlaceholderEl] = the[_editorBodyEl]
             = the[_editorFooterEl] = null;
+        array.each(the[_buttons], function (index, button) {
+            button.destroy();
+        });
     }
 });
 var prop = Editor.prototype;
 var sole = Editor.sole;
 var _options = sole();
+var _buttons = sole();
 var _initFrame = sole();
 var _initRanger = sole();
 var _initPlaceholder = sole();
@@ -371,6 +396,12 @@ prop[_initEvent] = function () {
 
         attribute.style(the[_editorPlaceholderEl], 'display', lastDisplay = display);
     }));
+
+    the.on('change', function () {
+        array.each(the[_buttons], function (index, button) {
+            button.update();
+        });
+    });
 };
 
 /**
