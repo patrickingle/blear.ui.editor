@@ -33,7 +33,7 @@ var Button = Events.extend({
         the[_options].as = typeis.Function(as) ? as : function () {
             return false;
         };
-        the[_el] = selector.as(the[_options].el)[0];
+        the[_el] = selector.query(the[_options].el)[0];
         attribute.addClass(the[_el], buttonClassName);
         event.on(the[_el], mousedownEventType, the[_onMousedownListener] = function () {
             the.emit('action');
