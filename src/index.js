@@ -46,11 +46,11 @@ var Editor = UI.extend({
     },
 
     /**
-     * 挂载一个图标
+     * 挂载一个菜单
      * @param make {Function} 构造器
      * @returns {Editor}
      */
-    icon: function (make) {
+    menu: function (make) {
         var the = this;
         make.call(the, the);
         return the;

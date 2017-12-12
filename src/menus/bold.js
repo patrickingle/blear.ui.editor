@@ -12,6 +12,7 @@ var modification = require('blear.core.modification');
 
 var Icon = require('../constructors/icon');
 var Button = require('../constructors/button');
+var Menu = require('../constructors/menu');
 
 var cmd = 'bold';
 
@@ -34,7 +35,11 @@ module.exports = function (options) {
             el: icon.getEl()
         });
 
-        modification.insert(button.getEl(), editor.getHeaderEl());
+        var menu = new Menu(editor);
+
+        menu.button(button);
+
+        // modification.insert(button.getEl(), editor.getHeaderEl());
     };
 };
 

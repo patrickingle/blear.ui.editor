@@ -16,7 +16,7 @@ var namespace = require('../settings.json').namespace;
 var iconClassName = namespace + '-menu';
 var defaults = {};
 var Menu = Events.extend({
-    constructor: function (options) {
+    constructor: function (editor, options) {
         var the = this;
 
         Menu.parent(the);
@@ -24,6 +24,7 @@ var Menu = Events.extend({
         the[_el] = modification.create('div', {
             class: iconClassName
         });
+        modification.insert(the[_el], editor.getHeaderEl());
     },
 
     /**
@@ -36,12 +37,12 @@ var Menu = Events.extend({
 
     /**
      * 插入图标
-     * @param icon
+     * @param button
      * @returns {Menu}
      */
-    icon: function (icon) {
+    button: function (button) {
         var the = this;
-
+        modification.insert(button.getEl(), the[_el]);
         return the;
     },
 
@@ -52,7 +53,7 @@ var Menu = Events.extend({
      */
     options: function (options) {
         var the = this;
-
+        modification.insert(options.getEl(), the[_el]);
         return the;
     },
 
@@ -69,6 +70,7 @@ var Menu = Events.extend({
 
 Menu.defaults = defaults;
 var sole = Menu.sole;
+var _editor = sole();
 var _options = sole();
 var _el = sole();
 
