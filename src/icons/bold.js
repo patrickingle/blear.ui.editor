@@ -8,19 +8,25 @@
 
 'use strict';
 
-var button = require('../constructors/button');
+var Icon = require('../constructors/icon');
+var Button = require('../constructors/button');
 
 var cmd = 'bold';
 
 module.exports = function (options) {
     return function (editor) {
-        editor.button({
-            el: button(editor, {
-                name: cmd,
-                title: '加粗'
-            }).getButtonEl(),
-            cmd: cmd,
-            shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+b'
+        // editor.button({
+        //     el: Icon(editor, {
+        //         name: cmd,
+        //         title: '加粗'
+        //     }).getButtonEl(),
+        //     cmd: cmd,
+        //     shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+b'
+        // });
+
+        new Icon({
+            name: cmd,
+            title: '加粗'
         });
     };
 };
