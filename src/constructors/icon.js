@@ -1,5 +1,5 @@
 /**
- * icon
+ * Icon
  * @author ydr.me
  * @create 2017-12-12 17:30
  * @update 2017-12-12 17:30
@@ -12,7 +12,7 @@ var Events = require('blear.classes.events');
 var modification = require('blear.core.modification');
 var object = require('blear.utils.object');
 
-var namespace = 'blearui-editor';
+var namespace = require('../settings.json').namespace;
 var iconClassName = namespace + '-icon';
 var defaults = {
     name: '',
@@ -31,9 +31,20 @@ var Icon = Events.extend({
     },
 
     /**
+     * 获取元素
+     * @returns {*}
+     */
+    getEl: function () {
+        return this[_el];
+    },
+
+    /**
      * 销毁实例
      */
     destroy: function () {
+        var the = this;
+
+        Events.invoke('destroy', the);
         modification.remove(this[_el]);
     }
 });

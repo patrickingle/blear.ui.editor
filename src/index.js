@@ -30,7 +30,7 @@ var defaults = {
     el: '',
     placeholder: '请输入'
 };
-var namespace = 'blearui-editor';
+var namespace = require('./settings.json').namespace;
 var Editor = UI.extend({
     constructor: function (options) {
         var the = this;

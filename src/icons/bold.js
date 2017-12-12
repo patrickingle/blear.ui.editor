@@ -8,6 +8,8 @@
 
 'use strict';
 
+var modification = require('blear.core.modification');
+
 var Icon = require('../constructors/icon');
 var Button = require('../constructors/button');
 
@@ -24,10 +26,15 @@ module.exports = function (options) {
         //     shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+b'
         // });
 
-        new Icon({
+        var icon = new Icon({
             name: cmd,
             title: '加粗'
         });
+        var button = new Button({
+            el: icon.getEl()
+        });
+
+        modification.insert(button.getEl(), editor.getHeaderEl());
     };
 };
 

@@ -26,7 +26,7 @@ var edi = new Editor({
 // });
 //
 // edi.icon(require('../src/icons/heading')());
-// edi.icon(require('../src/icons/bold')());
+edi.icon(require('../src/icons/bold')());
 // edi.icon(require('../src/icons/italic')());
 
 window.edi = edi;

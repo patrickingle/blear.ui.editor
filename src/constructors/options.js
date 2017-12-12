@@ -17,22 +17,23 @@ var modification = require('blear.core.modification');
 var event = require('blear.core.event');
 var UI = require('blear.ui');
 
+var namespace = require('../settings.json').namespace;
 var mousedownEventType = 'mousedown';
-var namespace = 'blearui-editor-dropOptions';
+var dropOptionsClassName = namespace + '-options';
 var activeClassName = 'active';
 var defaults = {
     options: [/*{text: "文本", value: "值"}*/],
     active: 0
 };
-var DropOptions = Events.extend({
+var Options = Events.extend({
     constructor: function (options) {
         var the = this;
 
-        DropOptions.parent(the);
+        Options.parent(the);
         the[_options] = object.assign({}, defaults, options);
         the[_activeIndex] = the[_options].active;
         the[_el] = modification.create('ul', {
-            class: namespace
+            class: dropOptionsClassName
         });
         the[_lastDisplay] = false;
         the[_initNode]();
@@ -69,7 +70,7 @@ var DropOptions = Events.extend({
 
     /**
      * 显示菜单
-     * @returns {DropOptions}
+     * @returns {Options}
      */
     show: function () {
         var the = this;
@@ -81,7 +82,7 @@ var DropOptions = Events.extend({
 
     /**
      * 隐藏菜单
-     * @returns {DropOptions}
+     * @returns {Options}
      */
     hide: function () {
         var the = this;
@@ -104,14 +105,15 @@ var DropOptions = Events.extend({
     destroy: function () {
         var the = this;
 
+        Events.invoke('destroy', the);
         event.un(the[_el]);
         event.un(document, mousedownEventType, the[_onDocumentMousedownListener]);
         modification.remove(the[_el]);
         the[_el] = null;
     }
 });
-var prop = DropOptions.prototype;
-var sole = DropOptions.sole;
+var prop = Options.prototype;
+var sole = Options.sole;
 var _options = sole();
 var _el = sole();
 var _initNode = sole();
@@ -174,10 +176,10 @@ prop[_initEvent] = function () {
  * 创建菜单
  * @param button
  * @param options
- * @returns DropOptions
+ * @returns Options
  */
 module.exports = function (button, options) {
-    var menu = new DropOptions({
+    var menu = new Options({
         options: options
     });
     modification.insert(menu.getEl(), button.getEl());

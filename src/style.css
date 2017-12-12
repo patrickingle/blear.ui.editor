@@ -3,7 +3,7 @@
   .blearui-editor-header {
     border-bottom: 1px solid #e6e6e6;
     font-size: 0; }
-  .blearui-editor-button {
+  .blearui-editor-menu {
     display: inline-block;
     position: relative; }
   .blearui-editor-icon {
@@ -36,7 +36,7 @@
       content: "H5"; }
     .blearui-editor-icon-heading-6:before {
       content: "H6"; }
-  .blearui-editor-dropOptions {
+  .blearui-editor-options {
     display: none;
     font-size: 16px;
     position: absolute;
@@ -47,28 +47,28 @@
     background: #fff;
     border: 1px solid #dcdcdc;
     border-radius: 4px; }
-    .blearui-editor-dropOptions:before, .blearui-editor-dropOptions:after {
+    .blearui-editor-options:before, .blearui-editor-options:after {
       content: '';
       position: absolute;
       border: 8px solid transparent;
       top: -16px;
       left: 10px; }
-    .blearui-editor-dropOptions:before {
+    .blearui-editor-options:before {
       border-bottom-color: #d9d9d9; }
-    .blearui-editor-dropOptions:after {
+    .blearui-editor-options:after {
       border-bottom-color: #fff; }
-    .blearui-editor-dropOptions a {
+    .blearui-editor-options a {
       line-height: 36px;
       display: block;
       text-decoration: none;
       color: #666666;
       padding: 0 10px; }
-      .blearui-editor-dropOptions a:hover {
+      .blearui-editor-options a:hover {
         background: #f6f6f6; }
-    .blearui-editor-dropOptions li.active {
+    .blearui-editor-options li.active {
       margin-left: -1px;
       margin-right: -1px; }
-      .blearui-editor-dropOptions li.active a {
+      .blearui-editor-options li.active a {
         background: #4899FA;
         color: #fff; }
   .blearui-editor-body {
