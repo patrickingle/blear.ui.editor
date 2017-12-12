@@ -58,21 +58,14 @@ var Editor = UI.extend({
     },
 
     /**
-     * 实例化一个按钮
-     * @param meta {Object}
-     * @param meta.el 元素
-     * @param meta.cmd {String|Function} 命令
-     * @param [meta.shortcut] {String} 快捷键
-     * @param [meta.query] {Function} 检查激活状态方法，返回布尔值
+     * 挂载一个按钮
+     * @param make {Function} 构造器
      * @returns {Editor}
      */
-    button: function (meta) {
+    button: function (make) {
         var the = this;
-        var query = meta.query;
-        meta.query = typeis.Function(query) ? function () {
-            return query.call(the);
-        } : null;
-
+        make.call(the, the);
+        return the;
     },
 
     /**
@@ -113,7 +106,6 @@ var Editor = UI.extend({
         });
         return the;
     },
-
 
     /**
      * 设置内容

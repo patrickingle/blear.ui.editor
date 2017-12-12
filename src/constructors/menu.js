@@ -14,12 +14,18 @@ var object = require('blear.utils.object');
 
 var namespace = require('../settings.json').namespace;
 var iconClassName = namespace + '-menu';
-var defaults = {};
+var defaults = {
+    shortcut: null,
+    cmd: function () {
+
+    }
+};
 var Menu = Events.extend({
     constructor: function (editor, options) {
         var the = this;
 
         Menu.parent(the);
+        the[_editor] = editor;
         the[_options] = object.assign({}, defaults, options);
         the[_el] = modification.create('div', {
             class: iconClassName
@@ -36,13 +42,34 @@ var Menu = Events.extend({
     },
 
     /**
-     * 插入图标
+     * 插入按钮
      * @param button
      * @returns {Menu}
      */
     button: function (button) {
         var the = this;
+        var options = the[_options];
+
         modification.insert(button.getEl(), the[_el]);
+
+        // 编辑器内容变化
+        the[_editor].on('change', function () {
+            button.update();
+        });
+
+        // 执行按钮
+        button.on('action', function () {
+            options.cmd.call(the[_editor]);
+        });
+
+        // 绑定快捷键
+        if (options.shortcut) {
+            the[_editor].shortcut(options.shortcut, function (ev) {
+                button.update();
+                options.cmd.call(the[_editor]);
+            });
+        }
+
         return the;
     },
 
