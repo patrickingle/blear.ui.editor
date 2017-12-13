@@ -72,8 +72,7 @@
         background: #4899FA;
         color: #fff; }
   .blearui-editor-body {
-    position: relative;
-    margin: 10px; }
+    position: relative; }
   .blearui-editor-placeholder {
     position: absolute;
     top: 0;
