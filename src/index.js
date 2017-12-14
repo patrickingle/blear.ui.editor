@@ -205,6 +205,14 @@ var Editor = UI.extend({
     },
 
     /**
+     * 获取 content 元素
+     * @returns {HTMLElement}
+     */
+    getContentEl: function () {
+        return this[_contentEl];
+    },
+
+    /**
      * 绑定快捷键
      * @returns {*}
      */
