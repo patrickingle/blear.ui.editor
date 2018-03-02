@@ -31,8 +31,8 @@ var defaults = {
     el: '',
     placeholder: '请输入',
     allowTags: [
-        'br', 'span', 'a', 'img', 'b', 'strong', 'i', 'strike', 'u', 'font', 'p',
-        'ul', 'ol', 'li', 'blockquote', 'pre', 'code', 'h1', 'h2', 'h3', 'h4', 'hr'
+        'br', 'span', 'a', 'img', 'b', 'strong', 'i', 'strike', 'p', 'blockquote', 'font',
+        'u', 'ul', 'ol', 'li', 'pre', 'code', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr'
     ],
     allowAttrs: {
         img: ['src', 'alt', 'width', 'height'],
@@ -41,6 +41,9 @@ var defaults = {
         code: ['class'],
         pre: ['class']
     },
+    allowStyles: [
+        'color', 'background-color', 'font-size', 'text-align'
+    ],
     onPasteImage: function (callback) {
         console.log('未配置粘贴图片上传回调');
         callback();
@@ -383,12 +386,11 @@ prop[_initEvent] = function () {
         the[_pastingContainerEl] = createPastingContainerEl();
         the[_pastingContainerEl].focus();
         time.nextTick(function () {
-            clean(the[_pastingContainerEl], options.allowTags, options.allowAttrs, true);
+            clean(the[_pastingContainerEl], options.allowTags, options.allowAttrs, options.allowStyles);
             var pastingNodes = array.from(the[_pastingContainerEl].childNodes);
 
             array.each(pastingNodes, function (index, node) {
                 the[_ranger].insertNode(node);
-                return false;
             });
 
             the.focus();

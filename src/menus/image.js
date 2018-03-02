@@ -11,6 +11,7 @@
 var modification = require('blear.core.modification');
 var event = require('blear.core.event');
 var object = require('blear.utils.object');
+var typeis = require('blear.utils.typeis');
 
 var Icon = require('../constructors/icon');
 var Button = require('../constructors/button');

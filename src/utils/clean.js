@@ -24,9 +24,11 @@ module.exports = cleanNode;
  * @param node
  * @param allowTags
  * @param allowAttrs
- * @param allowData
+ * @param allowStyles
  */
-function cleanNode(node, allowTags, allowAttrs, allowData) {
+function cleanNode(node, allowTags, allowAttrs, allowStyles) {
+    allowStyles = allowStyles || [];
+
     var work = function (node) {
         var childNodes = array.from(node.childNodes);
 
@@ -40,7 +42,13 @@ function cleanNode(node, allowTags, allowAttrs, allowData) {
                 array.each(attrs, function (j, attr) {
                     var attrName = attr.name;
 
-                    if (attrName === 'style' || allowData && dataRE.test(attrName)) {
+                    if (attrName === 'style') {
+                        var childNodeStyle = array.from(childNode.style);
+                        array.each(childNodeStyle, function (index, key) {
+                            if (allowStyles.indexOf(key) < 0) {
+                                attribute.style(childNode, key, '');
+                            }
+                        });
                         return;
                     }
 
@@ -49,7 +57,6 @@ function cleanNode(node, allowTags, allowAttrs, allowData) {
                     // 不存在的属性，删除
                     if (safeAttrs.indexOf(attrName) < 0) {
                         attribute.removeAttr(childNode, attrName);
-                        return false;
                     }
                 });
 
