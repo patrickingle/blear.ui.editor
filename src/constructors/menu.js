@@ -16,7 +16,7 @@ var namespace = require('../settings.json').namespace;
 var iconClassName = namespace + '-menu';
 var defaults = {
     shortcut: null,
-    cmd: function () {
+    action: function () {
 
     }
 };
@@ -58,15 +58,15 @@ var Menu = Events.extend({
         });
 
         // 执行按钮
-        button.on('action', function () {
-            options.cmd.call(the[_editor]);
+        button.on('action', function (action) {
+            action.call(the[_editor]);
         });
 
         // 绑定快捷键
         if (options.shortcut) {
             the[_editor].shortcut(options.shortcut, function (ev) {
                 button.update();
-                options.cmd.call(the[_editor]);
+                options.action.call(the[_editor]);
             });
         }
 

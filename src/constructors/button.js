@@ -21,6 +21,9 @@ var mousedownEventType = 'mousedown';
 var defaults = {
     el: null,
     activeClassName: 'active',
+    action: function () {
+        // ignore
+    },
     as: null
 };
 var Button = Events.extend({
@@ -36,7 +39,10 @@ var Button = Events.extend({
         the[_el] = selector.query(the[_options].el)[0];
         attribute.addClass(the[_el], buttonClassName);
         event.on(the[_el], mousedownEventType, the[_onMousedownListener] = function () {
-            the.emit('action');
+            if (the.emit('action', the[_options].action) !== false) {
+                the[_options].action();
+            }
+
             the.update();
             return false;
         });

@@ -80,19 +80,13 @@ var Editor = UI.extend({
      * 实例化一个按钮
      * @param meta {Object}
      * @param meta.el 元素
-     * @param meta.cmd {Function} 命令
+     * @param meta.action {Function} 行为
      * @param [meta.as] {Function} 检查激活状态方法，返回布尔值
      * @returns {Editor}
      */
     button: function (meta) {
         var the = this;
-        var button = new Button({
-            el: meta.el,
-            as: meta.as
-        });
-        button.on('action', function () {
-            meta.cmd.call(the);
-        });
+        var button = new Button(meta);
         the[_buttons].push(button);
         return the;
     },

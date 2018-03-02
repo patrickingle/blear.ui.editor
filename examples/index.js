@@ -16,22 +16,18 @@ var edi = new Editor({
 
 edi.button({
     el: '#bold',
-    cmd: function () {
+    action: function () {
         edi.bold();
     },
     as: function () {
         return edi.as('bold');
     }
 });
-// edi.button({
-//     el: '#italic',
-//     cmd: 'italic',
-//     shortcut: (Editor.mac ? 'cmd' : 'ctrl') + ' + i'
-// });
+
 //
-// edi.menu(require('../src/icons/heading')());
+// edi.menu(require('../src/menus/heading')());
 edi.menu(require('../src/menus/bold')());
-// edi.menu(require('../src/icons/italic')());
+// edi.menu(require('../src/menus/italic')());
 
 window.edi = edi;
 

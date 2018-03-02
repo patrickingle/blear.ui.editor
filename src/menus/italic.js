@@ -32,7 +32,7 @@ module.exports = function (options) {
             }
         });
         var menu = new Menu(editor, {
-            cmd: editor.bold,
+            action: editor.italic,
             shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+i'
         });
 
