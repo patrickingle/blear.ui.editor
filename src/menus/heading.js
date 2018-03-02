@@ -1,5 +1,5 @@
 /**
- * bold
+ * heading
  * @author ydr.me
  * @create 2017-12-11 14:45
  * @update 2017-12-11 14:45
@@ -26,9 +26,8 @@ module.exports = function (options) {
         }, {
             text: '二级标题',
             value: '2'
-        }])
-            .on('escape', function () {
-            });
+        }]).on('escape', function () {
+        });
         // var btn2 = editor.button({
         //     el: btn.getButtonEl(),
         //     cmd: function () {
