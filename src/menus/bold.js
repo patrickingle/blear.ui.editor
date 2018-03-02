@@ -29,10 +29,10 @@ module.exports = function (options) {
             el: icon.getEl(),
             as: function () {
                 return editor.as(cmd);
-            }
+            },
+            action: editor.bold
         });
         var menu = new Menu(editor, {
-            action: editor.bold,
             shortcut: (editor.mac ? 'cmd' : 'ctrl') + '+b'
         });
 

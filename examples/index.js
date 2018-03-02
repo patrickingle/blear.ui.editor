@@ -16,9 +16,7 @@ var edi = new Editor({
 
 edi.button({
     el: '#bold',
-    action: function () {
-        edi.bold();
-    },
+    action: edi.bold,
     as: function () {
         return edi.as('bold');
     }

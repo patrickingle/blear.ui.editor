@@ -49,6 +49,7 @@ var Menu = Events.extend({
     button: function (button) {
         var the = this;
         var options = the[_options];
+        var action = options.action;
 
         modification.insert(button.getEl(), the[_el]);
 
@@ -57,16 +58,10 @@ var Menu = Events.extend({
             button.update();
         });
 
-        // 执行按钮
-        button.on('action', function (action) {
-            action.call(the[_editor]);
-        });
-
         // 绑定快捷键
         if (options.shortcut) {
             the[_editor].shortcut(options.shortcut, function (ev) {
-                button.update();
-                options.action.call(the[_editor]);
+                button.exec();
             });
         }
 

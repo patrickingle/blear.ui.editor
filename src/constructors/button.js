@@ -50,6 +50,17 @@ var Button = Events.extend({
     },
 
     /**
+     * 手动执行按钮行为
+     * @returns {Button}
+     */
+    exec: function () {
+        var the = this;
+        the[_options].action();
+        the.update();
+        return the;
+    },
+
+    /**
      * 切换按钮状态
      * @returns {Button}
      */
