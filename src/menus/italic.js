@@ -8,11 +8,14 @@
 
 'use strict';
 
+var object = require('blear.utils.object');
+
 var Icon = require('../constructors/icon');
 var Button = require('../constructors/button');
 var Menu = require('../constructors/menu');
 
 var cmd = 'italic';
+var defaults = {};
 
 /**
  * 实现一个 italic 菜单
@@ -20,6 +23,7 @@ var cmd = 'italic';
  * @returns {Function}
  */
 module.exports = function (options) {
+    options = object.assign({}, defaults, options);
     return function (editor) {
         var icon = new Icon({
             name: cmd,

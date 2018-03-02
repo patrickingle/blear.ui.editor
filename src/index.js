@@ -41,11 +41,13 @@ var defaults = {
         code: ['class'],
         pre: ['class']
     },
-    onPasteImage: function (next) {
-
+    onPasteImage: function (callback) {
+        console.log('未配置粘贴图片上传回调');
+        callback();
     },
-    onDropImage: function (next) {
-
+    onDropImage: function (callback) {
+        console.log('未配置拖拽图片上传回调');
+        callback();
     }
 };
 var namespace = require('./settings.json').namespace;
