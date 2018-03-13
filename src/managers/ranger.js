@@ -15,6 +15,7 @@ var object = require('blear.utils.object');
 var fun = require('blear.utils.function');
 
 var nodal = require('../utils/nodal');
+var History = require('./history');
 
 var selectionChangeEventType = 'selectionchange';
 var doc = document;
@@ -24,8 +25,7 @@ var getNodeLength = nodal.getNodeLength;
 // var blockNodeRE = new RegExp("^(" + ["div", "p", "ul", "ol", "li", "blockquote", "hr",
 //     "pre", "h1", "h2", "h3", "h4", "h5", "table"].join('|') + ")$", 'i');
 var defaults = {
-    el: document,
-    history: null
+    el: document
 };
 var RangeManger = Events.extend({
     className: 'RangeManger',
@@ -35,7 +35,7 @@ var RangeManger = Events.extend({
         RangeManger.parent(the);
         options = the[_options] = object.assign({}, defaults, options);
         the[_el] = options.el;
-        the[_history] = options.history;
+        window.his = the[_history] = new History();
         the[_initEvent]();
     },
 
@@ -148,6 +148,22 @@ var RangeManger = Events.extend({
         range.setEndAfter(node);
         the.set(range);
         return the;
+    },
+
+    undo: function () {
+        var the = this;
+
+        var range = the[_history].backward();
+
+        if (!range) {
+            return;
+        }
+
+        debugger;
+    },
+
+    redo: function () {
+
     },
 
     /**

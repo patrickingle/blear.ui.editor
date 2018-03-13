@@ -27,6 +27,7 @@ var clean = require('./utils/clean');
 var Button = require('./constructors/button');
 
 var iconFontLink = 'https://at.alicdn.com/t/font_504834_2qdjl2hpwqumcxr.css';
+var isMac = Hotkey.mac;
 var defaults = {
     el: '',
     placeholder: '请输入',
@@ -295,8 +296,7 @@ prop[_initRanger] = function () {
     var options = the[_options];
 
     the[_ranger] = new Ranger({
-        el: the[_contentEl],
-        history: new History()
+        el: the[_contentEl]
     });
 };
 
@@ -334,17 +334,30 @@ prop[_initEvent] = function () {
     var the = this;
     var options = the[_options];
     var lastDisplay = 'block';
+    var cmdKey = isMac ? 'cmd' : 'ctrl';
 
-    the[_hotkey].bind('backspace', function (ev) {
-        if (nodal.isEmpty(the[_contentEl])) {
-            the[_fixContent]();
-            return ev.preventDefault();
-        }
+    the[_hotkey]
+        // 后退删除
+        .bind('backspace', function (ev) {
+            if (nodal.isEmpty(the[_contentEl])) {
+                the[_fixContent]();
+                return ev.preventDefault();
+            }
 
-        if (isInitialState(the[_contentEl])) {
-            return ev.preventDefault();
-        }
-    });
+            if (isInitialState(the[_contentEl])) {
+                return ev.preventDefault();
+            }
+        })
+        // 撤销
+        .bind(cmdKey + '+z', function (ev) {
+            ev.preventDefault();
+            the[_ranger].undo();
+        })
+        // 恢复
+        .bind(cmdKey + '+shift+z', function (ev) {
+            ev.preventDefault();
+            the[_ranger].redo();
+        });
 
     event.on(the[_contentEl], 'keydown', the[_onKeydownListener] = function (ev) {
         the[_ranger].change();
@@ -424,6 +437,7 @@ prop[_initEvent] = function () {
         array.each(the[_buttons], function (index, button) {
             button.update();
         });
+        the[_ranger].change();
     });
 };
 

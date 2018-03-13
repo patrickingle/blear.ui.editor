@@ -1,7 +1,7 @@
 {
   "name": "blear.ui.editor",
-  "version": "1.1.4",
-  "description": "编辑器：（wyswyg、markdown）",
+  "version": "1.2.0",
+  "description": "可扩展的富文本编辑器：（wyswyg、markdown）",
   "scripts": {},
   "preferGlobal": false,
   "bin": {},
@@ -30,6 +30,7 @@
     "url": "https://github.com/blearjs/blear.ui.editor/issues"
   },
   "dependencies": {
+    "blear.classes.class": "^1.1.7",
     "blear.classes.editable": "^1.0.4",
     "blear.classes.events": "^1.0.7",
     "blear.classes.hotkey": "^1.0.1",
@@ -47,7 +48,14 @@
   },
   "peerDependencies": {},
   "devDependencies": {
-    "coolie.js": "2.2.3"
+    "coolie.js": "2.2.3",
+    "jasmine-core": "2.8.0",
+    "karma": "1.7.1",
+    "karma-chrome-launcher": "2.2.0",
+    "karma-coolie": "2.0.2",
+    "karma-coverage": "1.1.1",
+    "karma-coveralls": "1.1.2",
+    "karma-jasmine": "1.1.0"
   },
   "license": "MIT"
 }

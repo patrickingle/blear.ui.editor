@@ -100,9 +100,11 @@ function resetInputFileEl(options, callback) {
     }
 
     inputFileEl = modification.create('input', {
-        id: Date.now() + '',
         type: 'file',
-        name: options.fileName
+        name: options.fileName,
+        style: {
+            display: 'none'
+        }
     });
     modification.insert(inputFileEl);
     inputFileEl.onchange = function (ev) {

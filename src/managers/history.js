@@ -25,6 +25,7 @@ var HistoryManager = Class.extend({
         HistoryManager.parent(the);
         the[_options] = object.assign({}, defaults, options);
         the[_histories] = [];
+        the[_active] = -1;
         the[_gid] = 0;
     },
 
@@ -36,23 +37,20 @@ var HistoryManager = Class.extend({
     put: function (item) {
         var the = this;
 
-        item.gid = the[_gid]++;
-        item.timeStamp = Date.now();
-        the[_histories].push(item);
+        // 删除激活后的无用数据
+        the[_histories].splice(the[_active] + 1);
 
         if (the[_histories].length === the[_options].max) {
             the[_histories].shift();
+            the[_active]--;
         }
 
-        return the;
-    },
+        item.id = the[_gid]++;
+        item.timestamp = Date.now();
+        the[_histories].push(item);
+        the[_active]++;
 
-    /**
-     * 取出记录
-     * @returns {*}
-     */
-    pop: function () {
-        return this[_histories].pop();
+        return the;
     },
 
     /**
@@ -60,8 +58,40 @@ var HistoryManager = Class.extend({
      * @returns {*}
      */
     recent: function () {
-        var histories = this[_histories];
-        return histories[histories.length - 1];
+        var the = this;
+        return the[_histories][the[_active]];
+    },
+
+    /**
+     * 前进
+     * @returns {*}
+     */
+    forward: function () {
+        var the = this;
+
+        // 刚好在历史终点
+        if (the[_histories].length === the[_active] + 1) {
+            return null;
+        }
+
+        the[_active]++;
+        return the[_histories][the[_active]];
+    },
+
+    /**
+     * 后退
+     * @returns {*}
+     */
+    backward: function () {
+        var the = this;
+
+        // 刚好在历史起点
+        if (0 === the[_active]) {
+            return null;
+        }
+
+        the[_active]--;
+        return the[_histories][the[_active]];
     },
 
     /**
@@ -78,8 +108,14 @@ var sole = HistoryManager.sole;
 var pro = HistoryManager.prototype;
 var _options = sole();
 var _histories = sole();
+var _active = sole();
 var _gid = sole();
 
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+    _histories = '_histories';
+    _active = '_active';
+}
 
 HistoryManager.defaults = defaults;
 module.exports = HistoryManager;
