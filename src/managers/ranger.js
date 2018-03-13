@@ -15,7 +15,6 @@ var object = require('blear.utils.object');
 var fun = require('blear.utils.function');
 
 var nodal = require('../utils/nodal');
-var History = require('./history');
 
 var selectionChangeEventType = 'selectionchange';
 var doc = document;
@@ -35,7 +34,6 @@ var RangeManger = Events.extend({
         RangeManger.parent(the);
         options = the[_options] = object.assign({}, defaults, options);
         the[_el] = options.el;
-        window.his = the[_history] = new History();
         the[_initEvent]();
     },
 
@@ -86,7 +84,7 @@ var RangeManger = Events.extend({
     change: function () {
         var the = this;
 
-        the[_pushHistory]();
+        the[_selectionChange]();
 
         return the;
     },
@@ -97,7 +95,7 @@ var RangeManger = Events.extend({
      */
     focus: function () {
         var the = this;
-        var recentRange = the[_history].recent();
+        var recentRange = the[_lastestRange];
 
         if (recentRange) {
             the.set(recentRange);
@@ -116,7 +114,7 @@ var RangeManger = Events.extend({
      */
     insertNode: function (node) {
         var the = this;
-        var range = the[_history].recent();
+        var range = the[_lastestRange];
 
         if (!range) {
             return the;
@@ -150,30 +148,12 @@ var RangeManger = Events.extend({
         return the;
     },
 
-    undo: function () {
-        var the = this;
-
-        var range = the[_history].backward();
-
-        if (!range) {
-            return;
-        }
-
-        debugger;
-    },
-
-    redo: function () {
-
-    },
-
     /**
      * 销毁实例
      */
     destroy: function () {
         var the = this;
 
-        the[_history].destroy();
-        the[_history] = null;
         event.un(doc, selectionChangeEventType, the[_onSelectionChangeListener]);
         RangeManger.invoke('destroy', the);
     }
@@ -183,11 +163,11 @@ var pro = RangeManger.prototype;
 var _options = sole();
 var _el = sole();
 var _initEvent = sole();
-var _pushHistory = sole();
-var _history = sole();
+var _selectionChange = sole();
+var _lastestRange = sole();
 var _onSelectionChangeListener = sole();
 
-pro[_pushHistory] = function () {
+pro[_selectionChange] = function () {
     var the = this;
     var range = the.get();
 
@@ -195,19 +175,7 @@ pro[_pushHistory] = function () {
         return;
     }
 
-    var recent = the[_history].recent();
-
-    if (
-        recent &&
-        recent.startContainer === range.startContainer &&
-        recent.startOffset === range.startOffset &&
-        recent.endContainer === range.endContainer &&
-        recent.endOffset === range.endOffset
-    ) {
-        return;
-    }
-
-    the[_history].put(range);
+    the[_lastestRange] = range;
     the.emit('selectionChange');
 };
 
@@ -215,7 +183,7 @@ pro[_initEvent] = function () {
     var the = this;
 
     event.on(doc, selectionChangeEventType, the[_onSelectionChangeListener] = fun.throttle(function () {
-        the[_pushHistory]();
+        the[_selectionChange]();
     }));
 };
 

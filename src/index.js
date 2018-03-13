@@ -43,7 +43,7 @@ var defaults = {
         pre: ['class']
     },
     allowStyles: [
-        'color', 'background-color', 'font-size', 'text-align'
+        'color', 'background-color', 'font-size', 'text-align', 'list-style-type', 'list-style-position'
     ],
     onPasteImage: function (callback) {
         console.log('未配置粘贴图片上传回调');
@@ -337,7 +337,7 @@ prop[_initEvent] = function () {
     var cmdKey = isMac ? 'cmd' : 'ctrl';
 
     the[_hotkey]
-        // 后退删除
+    // 后退删除
         .bind('backspace', function (ev) {
             if (nodal.isEmpty(the[_contentEl])) {
                 the[_fixContent]();
@@ -437,7 +437,6 @@ prop[_initEvent] = function () {
         array.each(the[_buttons], function (index, button) {
             button.update();
         });
-        the[_ranger].change();
     });
 };
 
