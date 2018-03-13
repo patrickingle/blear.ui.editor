@@ -29,9 +29,16 @@ module.exports = cleanNode;
 function cleanNode(node, allowTags, allowAttrs, allowStyles) {
     allowStyles = allowStyles || [];
 
+    var start = false;
     var work = function (node) {
+        if (start && allowTags.indexOf(node.tagName.toLowerCase()) === -1) {
+            modfication.remove(node);
+            return;
+        }
+
         var childNodes = array.from(node.childNodes);
 
+        start = true;
         array.each(childNodes, function (i, childNode) {
             var childNodeType = childNode.nodeType;
 
