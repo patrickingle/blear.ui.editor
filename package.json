@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "blear.classes.class": "^1.1.7",
-    "blear.classes.editable": "^1.0.4",
     "blear.classes.events": "^1.0.7",
     "blear.classes.hotkey": "^1.0.1",
     "blear.core.attribute": "^1.0.11",
