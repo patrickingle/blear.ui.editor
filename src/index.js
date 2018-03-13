@@ -46,11 +46,9 @@ var defaults = {
         'color', 'background-color', 'font-size', 'text-align', 'list-style-type', 'list-style-position'
     ],
     onPasteImage: function (callback) {
-        console.log('未配置粘贴图片上传回调');
         callback();
     },
     onDropImage: function (callback) {
-        console.log('未配置拖拽图片上传回调');
         callback();
     }
 };
@@ -70,6 +68,7 @@ var Editor = UI.extend({
         the[_initRanger]();
         the[_initPlaceholder]();
         the[_initEvent]();
+        the[_inRestore] = false;
         the.focus();
     },
 
@@ -277,6 +276,7 @@ var _editorFooterEl = sole();
 var _ranger = sole();
 var _fixContent = sole();
 var _restoreHistory = sole();
+var _inRestore = sole();
 var _onKeydownListener = sole();
 var _onKeyupListener = sole();
 var _onPasteListener = sole();
@@ -312,7 +312,7 @@ prop[_initHistory] = function () {
     var the = this;
     var options = the[_options];
 
-    window.his = the[_history] = new History();
+    the[_history] = new History();
 };
 
 /**
@@ -386,13 +386,13 @@ prop[_initEvent] = function () {
             the[_restoreHistory](the[_history].forward());
         });
 
-    event.on(the[_editorContentEl], 'keydown', the[_onKeydownListener] = function (ev) {
-        the[_ranger].change();
-    });
-
-    event.on(the[_editorContentEl], 'keyup', the[_onKeyupListener] = function () {
-        the.emit('change');
-    });
+    // event.on(the[_editorContentEl], 'keydown', the[_onKeydownListener] = function (ev) {
+    //     the[_ranger].change();
+    // });
+    //
+    // event.on(the[_editorContentEl], 'keyup', the[_onKeyupListener] = function () {
+    //     the.emit('change');
+    // });
 
     event.on(the[_editorContentEl], 'paste', the[_onPasteListener] = function (ev) {
         if (the[_pastingContainerEl]) {
@@ -463,14 +463,17 @@ prop[_initEvent] = function () {
 
     // 更新按钮状态
     the.on('change', function () {
-        console.log('on change');
         array.each(the[_buttons], function (index, button) {
             button.update();
         });
     });
 
     // 控制记录记录栈
-    the.on('change', fun.debounce(function () {
+    the.on('change', function () {
+        if (the[_inRestore]) {
+            return;
+        }
+
         var orginalRange = the[_ranger].get();
 
         if (!orginalRange) {
@@ -488,7 +491,7 @@ prop[_initEvent] = function () {
             class: _endCaretClassName
         });
 
-        endRange.collapse();
+        // endRange.collapse();
         startRange.insertNode(startCaretEl);
         endRange.insertNode(endCaretEl);
         var html = the.getHtml();
@@ -506,7 +509,7 @@ prop[_initEvent] = function () {
             endOffset: startRange.endOffset,
             collapsed: startRange.collapsed
         });
-    }));
+    });
 };
 
 /**
@@ -534,6 +537,7 @@ prop[_restoreHistory] = function (state) {
     var the = this;
     var html = state.html;
 
+    the[_inRestore] = true;
     attribute.html(the[_editorContentEl], html);
     var startCaretEl = selector.query('.' + _startCaretClassName, the[_editorContentEl])[0];
     var endCaretEl = selector.query('.' + _endCaretClassName, the[_editorContentEl])[0];
@@ -548,6 +552,7 @@ prop[_restoreHistory] = function (state) {
 
     modification.remove(startCaretEl);
     modification.remove(endCaretEl);
+    the[_inRestore] = false;
 };
 
 modification.insert(modification.create('link', {
