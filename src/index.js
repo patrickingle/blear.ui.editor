@@ -151,7 +151,7 @@ var Editor = UI.extend({
      * @param value
      * @returns {Editor}
      */
-    setValue: function (value) {
+    setHtml: function (value) {
         var the = this;
         the[_editorContentEl].innerHTML = value;
         the[_fixContent]();
