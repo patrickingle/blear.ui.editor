@@ -56,6 +56,7 @@ var defaults = {
 };
 var namespace = require('./settings.json').namespace;
 var Editor = UI.extend({
+    className: 'Editor',
     constructor: function (options) {
         var the = this;
 
@@ -65,6 +66,7 @@ var Editor = UI.extend({
         the[_buttons] = [];
         the[_initFrame]();
         the[_initHotkey]();
+        the[_initHistory]();
         the[_initRanger]();
         the[_initPlaceholder]();
         the[_initEvent]();
@@ -152,7 +154,7 @@ var Editor = UI.extend({
      */
     setValue: function (value) {
         var the = this;
-        the[_contentEl].innerHTML = value;
+        the[_editorContentEl].innerHTML = value;
         the[_fixContent]();
         the.focus();
         the.emit('change');
@@ -160,21 +162,21 @@ var Editor = UI.extend({
     },
 
     /**
-     * 获取内容
+     * 获取纯文本
      * @returns {string}
      */
     getText: function () {
         var the = this;
-        return attribute.text(the[_contentEl]);
+        return attribute.text(the[_editorContentEl]);
     },
 
     /**
-     * 获取内容
+     * 获取原内容
      * @returns {string}
      */
-    getValue: function () {
+    getHtml: function () {
         var the = this;
-        return attribute.html(the[_contentEl]);
+        return attribute.html(the[_editorContentEl]);
     },
 
     /**
@@ -209,7 +211,7 @@ var Editor = UI.extend({
      * @returns {HTMLElement}
      */
     getContentEl: function () {
-        return this[_contentEl];
+        return this[_editorContentEl];
     },
 
     /**
@@ -232,29 +234,41 @@ var Editor = UI.extend({
         var the = this;
 
         the[_hotkey].destroy();
-        Editor.invoke('destroy', the);
-        modification.insert(the[_contentEl], the[_editorEl], 3);
+        the[_history].destroy();
+        the[_ranger].destroy();
+        modification.insert(the[_editorContentEl], the[_editorEl], 3);
         modification.remove(the[_editorEl]);
-        attribute.removeClass(the[_contentEl], namespace + '-content');
-        the[_contentEl] = the[_editorEl] = the[_editorHeaderEl]
-            = the[_editorPlaceholderEl] = the[_editorBodyEl]
-            = the[_editorFooterEl] = null;
+        attribute.removeClass(the[_editorContentEl], namespace + '-content');
         array.each(the[_buttons], function (index, button) {
             button.destroy();
         });
+        the[_editorContentEl]
+            = the[_hotkey]
+            = the[_history]
+            = the[_ranger]
+            = the[_editorEl]
+            = the[_editorHeaderEl]
+            = the[_editorPlaceholderEl]
+            = the[_editorBodyEl]
+            = the[_editorFooterEl]
+            = the[_buttons]
+            = null;
+        Editor.invoke('destroy', the);
     }
 });
 var prop = Editor.prototype;
 var sole = Editor.sole;
 var _options = sole();
+var _history = sole();
 var _buttons = sole();
 var _initFrame = sole();
+var _initHistory = sole();
 var _initRanger = sole();
 var _initPlaceholder = sole();
 var _initHotkey = sole();
 var _initEvent = sole();
 var _hotkey = sole();
-var _contentEl = sole();
+var _editorContentEl = sole();
 var _editorEl = sole();
 var _editorHeaderEl = sole();
 var _editorPlaceholderEl = sole();
@@ -262,11 +276,14 @@ var _editorBodyEl = sole();
 var _editorFooterEl = sole();
 var _ranger = sole();
 var _fixContent = sole();
+var _restoreHistory = sole();
 var _onKeydownListener = sole();
 var _onKeyupListener = sole();
 var _onPasteListener = sole();
 var _onMousedownListener = sole();
 var _pastingContainerEl = sole();
+var _startCaretClassName = sole();
+var _endCaretClassName = sole();
 
 /**
  * 初始化框架
@@ -274,18 +291,28 @@ var _pastingContainerEl = sole();
 prop[_initFrame] = function () {
     var the = this;
     var options = the[_options];
-    the[_contentEl] = selector.query(options.el)[0];
+    the[_editorContentEl] = selector.query(options.el)[0];
     the[_editorEl] = modification.parse(require('./template.html'));
     var els = selector.children(the[_editorEl]);
     the[_editorHeaderEl] = els[0];
     the[_editorBodyEl] = els[1];
     the[_editorFooterEl] = els[2];
     the[_editorPlaceholderEl] = selector.children(the[_editorBodyEl])[0];
-    modification.insert(the[_editorEl], the[_contentEl], 3);
-    modification.insert(the[_contentEl], the[_editorBodyEl], 2);
-    attribute.addClass(the[_contentEl], namespace + '-content');
-    attribute.attr(the[_contentEl], 'contenteditable', true);
+    modification.insert(the[_editorEl], the[_editorContentEl], 3);
+    modification.insert(the[_editorContentEl], the[_editorBodyEl], 2);
+    attribute.addClass(the[_editorContentEl], namespace + '-content');
+    attribute.attr(the[_editorContentEl], 'contenteditable', true);
     the[_fixContent]();
+};
+
+/**
+ * 初始化历史记录
+ */
+prop[_initHistory] = function () {
+    var the = this;
+    var options = the[_options];
+
+    window.his = the[_history] = new History();
 };
 
 /**
@@ -296,7 +323,7 @@ prop[_initRanger] = function () {
     var options = the[_options];
 
     the[_ranger] = new Ranger({
-        el: the[_contentEl]
+        el: the[_editorContentEl]
     });
 };
 
@@ -307,7 +334,7 @@ prop[_initPlaceholder] = function () {
     var the = this;
     var options = the[_options];
 
-    attribute.style(the[_editorPlaceholderEl], attribute.style(the[_contentEl], [
+    attribute.style(the[_editorPlaceholderEl], attribute.style(the[_editorContentEl], [
         'padding',
         'background',
         'font'
@@ -323,7 +350,7 @@ prop[_initHotkey] = function () {
     var options = the[_options];
 
     the[_hotkey] = new Hotkey({
-        el: the[_contentEl]
+        el: the[_editorContentEl]
     });
 };
 
@@ -339,35 +366,35 @@ prop[_initEvent] = function () {
     the[_hotkey]
     // 后退删除
         .bind('backspace', function (ev) {
-            if (nodal.isEmpty(the[_contentEl])) {
+            if (nodal.isEmpty(the[_editorContentEl])) {
                 the[_fixContent]();
                 return ev.preventDefault();
             }
 
-            if (isInitialState(the[_contentEl])) {
+            if (isInitialState(the[_editorContentEl])) {
                 return ev.preventDefault();
             }
         })
         // 撤销
         .bind(cmdKey + '+z', function (ev) {
             ev.preventDefault();
-            the[_ranger].undo();
+            the[_restoreHistory](the[_history].backward());
         })
         // 恢复
         .bind(cmdKey + '+shift+z', function (ev) {
             ev.preventDefault();
-            the[_ranger].redo();
+            the[_restoreHistory](the[_history].forward());
         });
 
-    event.on(the[_contentEl], 'keydown', the[_onKeydownListener] = function (ev) {
+    event.on(the[_editorContentEl], 'keydown', the[_onKeydownListener] = function (ev) {
         the[_ranger].change();
     });
 
-    event.on(the[_contentEl], 'keyup', the[_onKeyupListener] = function () {
+    event.on(the[_editorContentEl], 'keyup', the[_onKeyupListener] = function () {
         the.emit('change');
     });
 
-    event.on(the[_contentEl], 'paste', the[_onPasteListener] = function (ev) {
+    event.on(the[_editorContentEl], 'paste', the[_onPasteListener] = function (ev) {
         if (the[_pastingContainerEl]) {
             return false;
         }
@@ -413,7 +440,7 @@ prop[_initEvent] = function () {
         });
     });
 
-    event.on(the[_contentEl], 'mousedown', 'img', the[_onMousedownListener] = function (ev) {
+    event.on(the[_editorContentEl], 'mousedown', 'img', the[_onMousedownListener] = function (ev) {
         the[_ranger].wrapNode(this);
         return false;
     });
@@ -422,6 +449,7 @@ prop[_initEvent] = function () {
         the.emit('change');
     });
 
+    // 控制 placeholder 的显隐
     the.on('change', fun.debounce(function () {
         var text = the.getText().replace(/^\s+|\s+$/g, '');
         var display = text ? 'none' : 'block';
@@ -433,11 +461,52 @@ prop[_initEvent] = function () {
         attribute.style(the[_editorPlaceholderEl], 'display', lastDisplay = display);
     }));
 
+    // 更新按钮状态
     the.on('change', function () {
+        console.log('on change');
         array.each(the[_buttons], function (index, button) {
             button.update();
         });
     });
+
+    // 控制记录记录栈
+    the.on('change', fun.debounce(function () {
+        var orginalRange = the[_ranger].get();
+
+        if (!orginalRange) {
+            return;
+        }
+
+        var recent = the[_history].recent();
+        // 必须复制两个新 range，否则会触发 selectionChange 事件
+        var startRange = orginalRange.cloneRange();
+        var endRange = orginalRange.cloneRange();
+        var startCaretEl = modification.create('span', {
+            class: _startCaretClassName
+        });
+        var endCaretEl = modification.create('span', {
+            class: _endCaretClassName
+        });
+
+        endRange.collapse();
+        startRange.insertNode(startCaretEl);
+        endRange.insertNode(endCaretEl);
+        var html = the.getHtml();
+        modification.remove(startCaretEl);
+        modification.remove(endCaretEl);
+
+        // 前后没有内容变化，则不做历史记录
+        if (recent && recent.html === html) {
+            return;
+        }
+
+        the[_history].put({
+            html: html,
+            startOffset: startRange.startOffset,
+            endOffset: startRange.endOffset,
+            collapsed: startRange.collapsed
+        });
+    }));
 };
 
 /**
@@ -445,11 +514,40 @@ prop[_initEvent] = function () {
  */
 prop[_fixContent] = function () {
     var the = this;
-    var childNodes = the[_contentEl].childNodes;
+    var childNodes = the[_editorContentEl].childNodes;
 
     if (!childNodes.length) {
-        the[_contentEl].innerHTML = '<p><br></p>';
+        the[_editorContentEl].innerHTML = '<p><br></p>';
     }
+};
+
+
+/**
+ * 恢复历史记录
+ * @param state
+ */
+prop[_restoreHistory] = function (state) {
+    if (!state) {
+        return;
+    }
+
+    var the = this;
+    var html = state.html;
+
+    attribute.html(the[_editorContentEl], html);
+    var startCaretEl = selector.query('.' + _startCaretClassName, the[_editorContentEl])[0];
+    var endCaretEl = selector.query('.' + _endCaretClassName, the[_editorContentEl])[0];
+
+    if (startCaretEl && endCaretEl) {
+        var range = Ranger.create();
+
+        range.setStart(startCaretEl, 0);
+        range.setEnd(endCaretEl, 0);
+        the[_ranger].set(range);
+    }
+
+    modification.remove(startCaretEl);
+    modification.remove(endCaretEl);
 };
 
 modification.insert(modification.create('link', {
@@ -515,5 +613,6 @@ function createPastingContainerEl() {
     modification.insert(el);
     return el;
 }
+
 
 

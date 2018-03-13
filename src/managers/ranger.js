@@ -35,6 +35,7 @@ var RangeManger = Events.extend({
         options = the[_options] = object.assign({}, defaults, options);
         the[_el] = options.el;
         the[_initEvent]();
+        the[_savedRange] = null;
     },
 
     /**
@@ -76,6 +77,27 @@ var RangeManger = Events.extend({
         sel.addRange(range);
         return the;
     },
+
+    // /**
+    //  * 保存当前选区待恢复
+    //  * @returns {RangeManger}
+    //  */
+    // save: function () {
+    //     var the = this;
+    //     the[_savedRange] = the.get();
+    //     return the;
+    // },
+    //
+    // /**
+    //  * 恢复保存的选区
+    //  * @returns {RangeManger}
+    //  */
+    // restore: function () {
+    //     var the = this;
+    //     the.set(the[_savedRange]);
+    //     the[_savedRange] = null;
+    //     return the;
+    // },
 
     /**
      * 变动选区
@@ -165,6 +187,7 @@ var _el = sole();
 var _initEvent = sole();
 var _selectionChange = sole();
 var _lastestRange = sole();
+var _savedRange = sole();
 var _onSelectionChangeListener = sole();
 
 pro[_selectionChange] = function () {
@@ -188,6 +211,7 @@ pro[_initEvent] = function () {
 };
 
 RangeManger.defaults = defaults;
+RangeManger.create = createNativeRange;
 module.exports = RangeManger;
 
 
