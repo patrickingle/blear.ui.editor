@@ -45,10 +45,10 @@ var defaults = {
     allowStyles: [
         'color', 'background-color', 'font-size', 'text-align', 'list-style-type', 'list-style-position'
     ],
-    onPasteImage: function (callback) {
+    onPasteImage: function (image, callback) {
         callback();
     },
-    onDropImage: function (callback) {
+    onDropImage: function (image, callback) {
         callback();
     }
 };
@@ -402,7 +402,7 @@ prop[_initEvent] = function () {
         var image = clipboard.image(ev);
 
         if (image) {
-            options.onPasteImage(function (meta) {
+            options.onPasteImage(image, function (meta) {
                 if (!meta) {
                     return;
                 }
