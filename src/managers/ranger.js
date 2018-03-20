@@ -11,6 +11,7 @@
 var Events = require('blear.classes.events');
 var selector = require('blear.core.selector');
 var event = require('blear.core.event');
+var modification = require('blear.core.modification');
 var object = require('blear.utils.object');
 var fun = require('blear.utils.function');
 
