@@ -1,7 +1,7 @@
 {
   "name": "blear.ui.editor",
   "version": "1.2.3",
-  "description": "可扩展的富文本编辑器：（wyswyg、markdown）",
+  "description": "Extensible Rich Text Editor：（wyswyg、markdown）",
   "scripts": {},
   "preferGlobal": false,
   "bin": {},
@@ -24,10 +24,10 @@
   "homepage": "https://github.com/blearjs/blear.ui.editor",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blearjs/blear.ui.editor"
+    "url": "https://github.com/patrickingle/blear.ui.editor"
   },
   "bugs": {
-    "url": "https://github.com/blearjs/blear.ui.editor/issues"
+    "url": "https://github.com/patrickingle/blear.ui.editor/issues"
   },
   "dependencies": {
     "blear.classes.class": "^1.1.7",
@@ -49,11 +49,11 @@
   "devDependencies": {
     "coolie.js": "2.2.3",
     "jasmine-core": "2.8.0",
-    "karma": "1.7.1",
+    "karma": "^4.4.1",
     "karma-chrome-launcher": "2.2.0",
     "karma-coolie": "2.0.2",
-    "karma-coverage": "1.1.1",
-    "karma-coveralls": "1.1.2",
+    "karma-coverage": "^2.0.1",
+    "karma-coveralls": "^2.1.0",
     "karma-jasmine": "1.1.0"
   },
   "license": "MIT"

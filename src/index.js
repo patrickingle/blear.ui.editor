@@ -73,8 +73,8 @@ var Editor = UI.extend({
     },
 
     /**
-     * 挂载一个菜单
-     * @param make {Function} 构造器
+     * 挂载一个菜单 - Mount a menu
+     * @param make {Function} 构造器 - Constructor
      * @returns {Editor}
      */
     menu: function (make) {
